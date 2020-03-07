@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class NumberDataModel extends ChangeNotifier {
   String numberData = "000000";
 
-  NumberDataModel({Key key, this.numberData}) ; 
+  NumberDataModel({Key key, this.numberData});
 
   String getNumberData() {
     return numberData;
@@ -115,12 +115,10 @@ class NumberDisplayDialog extends StatefulWidget {
   NumberDisplayDialog({Key key, this.numberData}) : super(key: key);
 
   @override
-  _NumberDisplayDialogState createState() =>
-      _NumberDisplayDialogState();
+  _NumberDisplayDialogState createState() => _NumberDisplayDialogState();
 }
 
 class _NumberDisplayDialogState extends State<NumberDisplayDialog> {
-
   _NumberDisplayDialogState();
 
   String _numberData;
@@ -155,10 +153,26 @@ class _NumberDisplayDialogState extends State<NumberDisplayDialog> {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                NumberDisplay(),
-                NumberKeys(),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xffd1d5db)),
+                    alignment: Alignment.center,
+                    height: 780,
+                    width: 608,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        NumberDisplay(),
+                        NumberKeys(),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -175,47 +189,32 @@ class NumberDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(0xffd1d5db)),
-              alignment: Alignment.center,
-              height: 140,
-              width: 608,
-              child: SizedBox(
-                  width: 540,
-                  child: Row(
-                    children: <Widget>[
-                      NumberDisplayText(
-                        inx: 0,
-                      ),
-                      NumberDisplayText(
-                        inx: 1,
-                      ),
-                      NumberDisplayText(
-                        inx: 2,
-                      ),
-                      NumberDisplayText(
-                        inx: 3,
-                      ),
-                      NumberDisplayText(
-                        inx: 4,
-                      ),
-                      NumberDisplayText(
-                        inx: 5,
-                      ),
-                    ],
-                  )),
+    return Center(
+      child: SizedBox(
+        height: 180,
+        width: 540,
+        child: Row(
+          children: <Widget>[
+            NumberDisplayText(
+              inx: 0,
             ),
-          ),
-        ],
+            NumberDisplayText(
+              inx: 1,
+            ),
+            NumberDisplayText(
+              inx: 2,
+            ),
+            NumberDisplayText(
+              inx: 3,
+            ),
+            NumberDisplayText(
+              inx: 4,
+            ),
+            NumberDisplayText(
+              inx: 5,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -234,7 +233,6 @@ class NumberDisplayText extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(5),
       child: SizedBox(
-        // Odd Meter Box inside
         width: 80,
         height: 98,
         child: Container(
@@ -269,79 +267,67 @@ class NumberKeys extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        decoration: BoxDecoration(
-            //border: Border.all(color: Colors.blue),
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xffd1d5db)),
-        alignment: Alignment.center,
-        width: 608,
-        height: 600,
-        //color: const Color(0xffd1d5db),
-        child: Container(
-          alignment: Alignment.center,
-          width: 590,
-          height: 580,
-          color: const Color(0xffd1d5db),
-          child: Row(
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  KeyButton(keych: "1"),
-                                  KeyButton(keych: "4"),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  KeyButton(keych: "2"),
-                                  KeyButton(keych: "5"),
-                                ],
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              KeyButton(keych: "7"),
-                              KeyButton(keych: "8"),
-                            ],
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          KeyButton(keych: "3"),
-                          KeyButton(keych: "6"),
-                          KeyButton(keych: "9"),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      KeyButton(keych: ""),
-                      KeyButton(keych: "0"),
-                      KeyButton(keych: ""),
-                    ],
-                  )
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  KeyButtonBS(),
-                  KeyButtonEnter(),
-                  KeyButtonClear()
-                ],
-              )
-            ],
-          ),
+      child: SizedBox(
+        width: 582,
+        height: 560,
+        child: Row(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                KeyButton(keych: "1"),
+                                KeyButton(keych: "4"),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                KeyButton(keych: "2"),
+                                KeyButton(keych: "5"),
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            KeyButton(keych: "7"),
+                            KeyButton(keych: "8"),
+                          ],
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        KeyButton(keych: "3"),
+                        KeyButton(keych: "6"),
+                        KeyButton(keych: "9"),
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    KeyButton(keych: ""),
+                    KeyButton(keych: "0"),
+                    KeyButton(keych: ""),
+                  ],
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                KeyButtonBS(),
+                KeyButtonEnter(),
+                KeyButtonClear()
+              ],
+            )
+          ],
         ),
       ),
     );
@@ -355,11 +341,9 @@ class KeyButtonBS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
+    return SizedBox(
       width: 162,
       height: 140,
-      color: const Color(0xffd1d5db),
       child: Center(
         child: SizedBox(
           width: 145,
@@ -402,11 +386,9 @@ class KeyButtonEnter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
+    return SizedBox(
       width: 162,
       height: 280,
-      color: const Color(0xffd1d5db),
       child: Center(
         child: SizedBox(
           width: 145,
@@ -416,8 +398,7 @@ class KeyButtonEnter extends StatelessWidget {
               return FlatButton(
                 onPressed: () {
                   //print("debug ${model.getNumberData()}");
-                  Navigator.of(context)
-                      .pop("${model.getNumberData()}");
+                  Navigator.of(context).pop("${model.getNumberData()}");
                 },
                 //onPressed: () => Navigator.of(context).pop,
                 color: const Color(0xffa8afba),
@@ -448,11 +429,9 @@ class KeyButtonEnter extends StatelessWidget {
 class KeyButtonClear extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
+    return SizedBox(
       width: 162,
       height: 140,
-      color: const Color(0xffd1d5db),
       child: Center(
         child: SizedBox(
           width: 142,
@@ -493,11 +472,9 @@ class KeyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
+    return SizedBox(
       width: 140,
       height: 140,
-      color: const Color(0xffd1d5db),
       child: Center(
         child: SizedBox(
           width: 120,
