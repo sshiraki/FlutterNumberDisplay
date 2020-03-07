@@ -2,7 +2,6 @@
 import 'package:flutter_svg/flutter_svg.Dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'NumberDisplayDialogGray.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,11 +19,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-enum DialogType {
-  whiteFrame,
-  grayFrame,
-}
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -37,27 +31,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String numberData = "000000";
-  DialogType _dialogType;
-  bool _dialogWhite;
-  bool _dialogGray;
 
   @override
   void initState() {
     // Initial Value
     //print("debug _MyHomepageState.numberData : $numberData");
-    _dialogType = DialogType.whiteFrame;
-    _dialogWhite = false;
-    _dialogGray = false;
     super.initState();
-  }
-
-  void _handleCheckbox(bool e) {
-    // Initial Value
-    setState(() {
-      _dialogType = e ? DialogType.grayFrame : DialogType.whiteFrame;
-      _dialogGray = e;
-    });
-    print("debug _MyHomepageState._dialogType : $_dialogType");
   }
 
   @override
@@ -70,48 +49,26 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Expanded(
             child: Center(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 500,
-                    child: FlatButton(
-                      child: Text("$numberData",
-                          style: TextStyle(
-                            fontFamily: "SF Pro Display",
-                            fontSize: 94,
-                            color: Color(0xff222222),
-                          )),
-                      onPressed: () async {
-                        var result = await showDialog(
-                            //onPressed: () {showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) {
-                              //return NumberDisplayDialog(numberData: "$numberData");
-                              return _dialogGray
-                                  ? NumberDisplayDialogGray(
-                                      numberData: "$numberData")
-                                  : NumberDisplayDialog(
-                                      numberData: "$numberData");
-                            });
-                        setState(() {
-                          numberData = result;
-                        });
-                        //print("debug result : $result");
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 200,
-                    width: 160,
-                    child: CheckboxListTile(
-                      title: Text("グレイ"),
-                      activeColor: Colors.blue,
-                      value: _dialogGray,
-                      onChanged: _handleCheckbox,
-                    ),
-                  ),
-                ],
+              child: FlatButton(
+                child: Text("$numberData",
+                    style: TextStyle(
+                      fontFamily: "SF Pro Display",
+                      fontSize: 94,
+                      color: Color(0xff222222),
+                    )),
+                onPressed: () async {
+                  var result = await showDialog(
+                      //onPressed: () {showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) {
+                        return NumberDisplayDialogGray(numberData: "$numberData");
+                      });
+                  setState(() {
+                    numberData = result;
+                  });
+                  //print("debug result : $result");
+                },
               ),
             ),
           ),
@@ -152,17 +109,17 @@ class NumberDataModel extends ChangeNotifier {
   }
 }
 
-class NumberDisplayDialog extends StatefulWidget {
+class NumberDisplayDialogGray extends StatefulWidget {
   final String numberData;
 
-  NumberDisplayDialog({Key key, this.numberData}) : super(key: key);
+  NumberDisplayDialogGray({Key key, this.numberData}) : super(key: key);
 
   @override
-  _NumberDisplayDialogState createState() => _NumberDisplayDialogState();
+  _NumberDisplayDialogGrayState createState() => _NumberDisplayDialogGrayState();
 }
 
-class _NumberDisplayDialogState extends State<NumberDisplayDialog> {
-  _NumberDisplayDialogState();
+class _NumberDisplayDialogGrayState extends State<NumberDisplayDialogGray> {
+  _NumberDisplayDialogGrayState();
 
   String _numberData;
 
@@ -186,12 +143,15 @@ class _NumberDisplayDialogState extends State<NumberDisplayDialog> {
       child: Dialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)), //this right here
+        backgroundColor: Color(0xffd1d5db),
         child: Container(
           // Diarog Outside
           //height: 860,
-          height: MediaQuery.of(context).size.height - 80,
           //width: 700,
-          width: MediaQuery.of(context).size.width - 10,
+          //height: MediaQuery.of(context).size.height - 80,
+          //width: MediaQuery.of(context).size.width - 10,
+          height: 780,
+          width: 608,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -199,23 +159,23 @@ class _NumberDisplayDialogState extends State<NumberDisplayDialog> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffd1d5db)),
-                    alignment: Alignment.center,
-                    height: 780,
-                    width: 608,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        NumberDisplay(),
-                        NumberKeys(),
-                      ],
-                    ),
+                  //child: Container(
+                  //  decoration: BoxDecoration(
+                  //      borderRadius: BorderRadius.circular(10),
+                  //      color: const Color(0xffd1d5db)),
+                  //  alignment: Alignment.center,
+                  //height: 780,
+                  //width: 608,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      NumberDisplay(),
+                      NumberKeys(),
+                    ],
                   ),
                 ),
+                //),
               ],
             ),
           ),
