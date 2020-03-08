@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       barrierDismissible: false,
                       context: context,
                       builder: (_) {
-                        return NumberDisplayDialogGray(numberData: "$numberData");
+                        return NumberDisplayDialogGrey(numberData: "$numberData");
                       });
                   setState(() {
                     numberData = result;
@@ -109,17 +109,17 @@ class NumberDataModel extends ChangeNotifier {
   }
 }
 
-class NumberDisplayDialogGray extends StatefulWidget {
+class NumberDisplayDialogGrey extends StatefulWidget {
   final String numberData;
 
-  NumberDisplayDialogGray({Key key, this.numberData}) : super(key: key);
+  NumberDisplayDialogGrey({Key key, this.numberData}) : super(key: key);
 
   @override
-  _NumberDisplayDialogGrayState createState() => _NumberDisplayDialogGrayState();
+  _NumberDisplayDialogGreyState createState() => _NumberDisplayDialogGreyState();
 }
 
-class _NumberDisplayDialogGrayState extends State<NumberDisplayDialogGray> {
-  _NumberDisplayDialogGrayState();
+class _NumberDisplayDialogGreyState extends State<NumberDisplayDialogGrey> {
+  _NumberDisplayDialogGreyState();
 
   String _numberData;
 

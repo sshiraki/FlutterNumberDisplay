@@ -2,7 +2,9 @@
 import 'package:flutter_svg/flutter_svg.Dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'NumberDisplayDialogGray.dart';
+import 'NumberDisplayDialogGrey.dart';
+import 'NumberDisplayBottomSheet.dart';
+import 'NumberDataModel.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,8 +24,9 @@ class MyApp extends StatelessWidget {
 
 enum DialogType {
   whiteFrame,
-  grayFrame,
-}
+  greyFrame,
+  bottomSheet,
+} 
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -38,31 +41,31 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String numberData = "000000";
   DialogType _dialogType;
-  bool _dialogWhite;
-  bool _dialogGray;
 
   @override
   void initState() {
     // Initial Value
     //print("debug _MyHomepageState.numberData : $numberData");
     _dialogType = DialogType.whiteFrame;
-    _dialogWhite = false;
-    _dialogGray = false;
     super.initState();
   }
 
-  void _handleCheckbox(bool e) {
+  void _handleRadioButton(DialogType e) {
     // Initial Value
     setState(() {
-      _dialogType = e ? DialogType.grayFrame : DialogType.whiteFrame;
-      _dialogGray = e;
+      _dialogType = e;
     });
     print("debug _MyHomepageState._dialogType : $_dialogType");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    String result;
+    return ChangeNotifierProvider<NumberDataModel>(
+      create: (_) => NumberDataModel(numberData: numberData),
+      child:
+
+    Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -82,33 +85,63 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Color(0xff222222),
                           )),
                       onPressed: () async {
-                        var result = await showDialog(
-                            //onPressed: () {showDialog(
-                            barrierDismissible: false,
+                        if (_dialogType == DialogType.bottomSheet) {
+                          result = await showModalBottomSheet<String>(
                             context: context,
-                            builder: (_) {
-                              //return NumberDisplayDialog(numberData: "$numberData");
-                              return _dialogGray
-                                  ? NumberDisplayDialogGray(
-                                      numberData: "$numberData")
-                                  : NumberDisplayDialog(
+                            isDismissible: false,
+                            builder: (BuildContext context) {
+                              return NumberDisplayBottomSheet(
+                                  numberData: "$numberData");
+                            },
+                          );
+                          setState(() {
+                            if (result != null) {
+                              numberData = result;
+                            }
+                          });
+                        } else {
+                          result = await showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) {
+                                if (_dialogType == DialogType.greyFrame) {
+                                  return NumberDisplayDialogGrey(
                                       numberData: "$numberData");
-                            });
-                        setState(() {
-                          numberData = result;
-                        });
-                        //print("debug result : $result");
+                                } else {
+                                  //_dialogType == DialogType.whiteFrame
+                                  return NumberDisplayDialog(
+                                      numberData: "$numberData");
+                                }
+                              });
+                          setState(() {
+                            numberData = result;
+                          });
+                        }
+                        print("debug result : $result");
                       },
                     ),
                   ),
                   SizedBox(
                     height: 200,
-                    width: 160,
-                    child: CheckboxListTile(
-                      title: Text("グレイ"),
-                      activeColor: Colors.blue,
-                      value: _dialogGray,
-                      onChanged: _handleCheckbox,
+                    width: 200,
+                    child: Column(
+                      children: <Widget>[
+                        RadioListTile(
+                            title: Text('白枠'),
+                            value: DialogType.whiteFrame,
+                            groupValue: _dialogType,
+                            onChanged: _handleRadioButton),
+                        RadioListTile(
+                            title: Text("透過"),
+                            value: DialogType.greyFrame,
+                            groupValue: _dialogType,
+                            onChanged: _handleRadioButton),
+                        RadioListTile(
+                            title: Text("ボトムシート"),
+                            value: DialogType.bottomSheet,
+                            groupValue: _dialogType,
+                            onChanged: _handleRadioButton),
+                      ],
                     ),
                   ),
                 ],
@@ -117,38 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+      ),
     );
-  }
-}
-
-class NumberDataModel extends ChangeNotifier {
-  String numberData = "000000";
-
-  NumberDataModel({Key key, this.numberData});
-
-  String getNumberData() {
-    return numberData;
-    //print("debug  $numberData");
-  }
-
-  void setNumberData(String s) {
-    if (numberData.substring(0, 1) == "0") {
-      numberData = "${numberData.substring(1, 6)}$s";
-      notifyListeners();
-      //print("debug  $numberData");
-    }
-  }
-
-  void delNumberData() {
-    numberData = "0${numberData.substring(0, 5)}";
-    notifyListeners();
-    //print("debug $numberData");
-  }
-
-  void clrNumberData() {
-    numberData = "000000";
-    notifyListeners();
-    //print("debug $numberData");
   }
 }
 
@@ -482,7 +485,7 @@ class KeyButtonClear extends StatelessWidget {
           child: Consumer<NumberDataModel>(builder: (_, model, __) {
             return FlatButton(
               onPressed: () {
-                model.clrNumberData();
+                model.resetNumberData();
               },
               color: const Color(0xffa8afba),
               shape: RoundedRectangleBorder(
