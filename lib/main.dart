@@ -26,7 +26,7 @@ enum DialogType {
   whiteFrame,
   greyFrame,
   bottomSheet,
-} 
+}
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -61,11 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     String result;
-    return ChangeNotifierProvider<NumberDataModel>(
-      create: (_) => NumberDataModel(numberData: numberData),
-      child:
-
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -149,7 +145,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-      ),
       ),
     );
   }
