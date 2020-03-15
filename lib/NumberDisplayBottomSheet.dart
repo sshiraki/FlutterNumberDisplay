@@ -1,13 +1,15 @@
 //import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'main.dart';
+import 'NumberDisplay.dart';
 import 'NumberDataModel.dart';
 
 class NumberDisplayBottomSheet extends StatefulWidget {
   final String numberData;
+  final bool isiPhone;
 
-  NumberDisplayBottomSheet({Key key, this.numberData}) : super(key: key);
+  NumberDisplayBottomSheet({Key key, this.numberData, this.isiPhone})
+      : super(key: key);
 
   @override
   _NumberDisplayBottomSheetState createState() =>
@@ -39,14 +41,20 @@ class _NumberDisplayBottomSheetState extends State<NumberDisplayBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    //final dataChange = Provider.of<NumberDataModel>(context, listen: false);
     return ChangeNotifierProvider<NumberDataModel>(
-      create: (_) => NumberDataModel(numberData: _numberData),
-      child: Container(
-        color: Color(0xffd1d5db),
-        height: 608,
-        width: 800,
+      create: (_) =>
+          NumberDataModel(numberData: _numberData, isiPhone: widget.isiPhone),
+      child: SingleChildScrollView(
         child: Center(
-          child: NumberKeys(),
+          child: Container(
+            color: Color(0xffd1d5db),
+            height: widget.isiPhone ? 408 : 608,
+            width: 1024,
+            child: Center(
+              child: NumberKeys(),
+            ),
+          ),
         ),
       ),
     );
